@@ -218,96 +218,73 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # 1. Group Photo First (Under header, lowered down)
-    photo_y = header_h + 20
+    # 1. Group Photo First (Under header, scaled nicely to fill screen upper half)
+    photo_y = header_h + 14
     grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
-    pw = int(W * 1.1)
+    pw = int(W * 1.14)
     ph = int(grp_m.height * (pw / grp_m.width))
     grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
     paste_x = (W - pw) // 2
     canvas.alpha_composite(grp_scaled, (paste_x, photo_y))
 
     # Smooth bottom transition overlay on photo
-    fade_overlay = Image.new("RGBA", (W, 44), (0, 0, 0, 0))
+    fade_overlay = Image.new("RGBA", (W, 48), (0, 0, 0, 0))
     d_fade = ImageDraw.Draw(fade_overlay)
-    for fy in range(44):
-        alpha = int(255 * ((fy / 43) ** 1.3))
+    for fy in range(48):
+        alpha = int(255 * ((fy / 47) ** 1.3))
         d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
-    canvas.alpha_composite(fade_overlay, (0, photo_y + ph - 44))
+    canvas.alpha_composite(fade_overlay, (0, photo_y + ph - 48))
 
-    # 2. Headline & Subtitle overlapping the photo slightly by 26px, left-aligned, LARGER!
-    y = photo_y + ph - 26
+    # 2. Headline & Subtitle overlapping the photo slightly, left-aligned, LARGER!
+    y = photo_y + ph - 24
     try:
-        f_title_m = ImageFont.truetype(SERIF_BODONI, 44, index=0)
+        f_title_m = ImageFont.truetype(SERIF_BODONI, 45, index=0)
     except:
-        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 42)
+        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 43)
         
     draw.text((20, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
-    y += 46
+    y += 48
     draw.text((20, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
     
-    y += 50
+    y += 52
     try:
-        f_sub_m = ImageFont.truetype(SANS_REG, 14)
+        f_sub_m = ImageFont.truetype(SANS_REG, 15)
     except:
-        f_sub_m = ImageFont.truetype(SANS_REG, 13.5)
+        f_sub_m = ImageFont.truetype(SANS_REG, 14.5)
     draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
-    y += 30
 
-    # 3. Mobile Button Group: Записаться (по центру) + Смотреть работы (по центру)
+    # 3. Mobile Button Group: Centered and stretched into the bottom thumb-zone (Full screen height coverage)
+    sec_h = 24
+    gap = 16
+    btn_h = 56
+    bottom_pad = 38
+    sec_y = H - bottom_pad - sec_h
+    btn_y = sec_y - gap - btn_h
+
     btn_w = W - 40
-    btn_h = 54
-    draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=27, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    draw_rounded_rect(draw, [20, btn_y, 20 + btn_w, btn_y + btn_h], radius=28, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
     try:
-        f_btn_m = ImageFont.truetype(SANS_MED, 15.5, index=1)
+        f_btn_m = ImageFont.truetype(SANS_MED, 16, index=1)
     except:
-        f_btn_m = ImageFont.truetype(SANS_BOLD, 15)
+        f_btn_m = ImageFont.truetype(SANS_BOLD, 15.5)
         
     txt_cta = "Записаться"
     bbox_cta = draw.textbbox((0, 0), txt_cta, font=f_btn_m)
     tw_cta = bbox_cta[2] - bbox_cta[0]
-    draw.text((20 + (btn_w - tw_cta) // 2, y + 17), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
+    draw.text((20 + (btn_w - tw_cta) // 2, btn_y + 17), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
     
     # Circle arrow on right inside button
-    m_cir_r = 19
-    m_cir_cx = 20 + btn_w - 7 - m_cir_r
-    m_cir_cy = y + 27
+    m_cir_r = 20
+    m_cir_cx = 20 + btn_w - 8 - m_cir_r
+    m_cir_cy = btn_y + (btn_h // 2)
     draw.ellipse([m_cir_cx - m_cir_r, m_cir_cy - m_cir_r, m_cir_cx + m_cir_r, m_cir_cy + m_cir_r], fill=COLOR_BLACK)
-    draw_arrow_ne(draw, m_cir_cx, m_cir_cy, size=4, color=COLOR_WHITE, width=2)
-    y += btn_h + 14
+    draw_arrow_ne(draw, m_cir_cx, m_cir_cy, size=5, color=COLOR_WHITE, width=2)
 
     # Secondary action link centered below button
     txt_sec = "Смотреть работы →"
     bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
     tw_sec = bbox_sec[2] - bbox_sec[0]
-    draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
-    y += 28
-
-    # 4. Mobile Stats / Trust Bar (Filling the bottom area)
-    bar_w = W - 40
-    bar_h = 60
-    draw_rounded_rect(draw, [20, y, 20 + bar_w, y + bar_h], radius=18, fill=(255, 255, 255, 200), outline=COLOR_BORDER, width=1)
-    
-    f_stat_num = ImageFont.truetype(SANS_BOLD, 15)
-    f_stat_lbl = ImageFont.truetype(SANS_REG, 11)
-    
-    # Stat 1
-    draw.text((42, y + 12), "10+ лет", font=f_stat_num, fill=COLOR_BLACK)
-    draw.text((42, y + 33), "опыта", font=f_stat_lbl, fill=COLOR_SUBTITLE)
-    
-    # Divider 1
-    draw.line([(136, y + 14), (136, y + 46)], fill=COLOR_BORDER, width=1)
-    
-    # Stat 2
-    draw.text((154, y + 12), "1 500+", font=f_stat_num, fill=COLOR_BLACK)
-    draw.text((154, y + 33), "выпускниц", font=f_stat_lbl, fill=COLOR_SUBTITLE)
-    
-    # Divider 2
-    draw.line([(254, y + 14), (254, y + 46)], fill=COLOR_BORDER, width=1)
-    
-    # Stat 3
-    draw.text((272, y + 12), "PRO", font=f_stat_num, fill=COLOR_BLACK)
-    draw.text((272, y + 33), "база и диплом", font=f_stat_lbl, fill=COLOR_SUBTITLE)
+    draw.text(((W - tw_sec) // 2, sec_y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)

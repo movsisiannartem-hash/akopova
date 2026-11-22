@@ -611,11 +611,6 @@ img {
   transform: translateX(4px);
 }
 
-/* Блок доверия на смартфонах скрыт на десктопе */
-.hero-mobile-stats-bar {
-  display: none;
-}
-
 /* --------------------------------------------------------------------------
    ПРАВАЯ ЧАСТЬ: ФОТОГРАФИЯ ГРУППЫ ДЕВУШЕК
    Крупное величественное масштабирование (88vh..92vh), 100% без обрезки
@@ -1163,10 +1158,12 @@ img {
 
   .hero-section {
     flex-direction: column;
-    justify-content: flex-start;
-    min-height: auto;
+    justify-content: space-between;
+    min-height: calc(100dvh - var(--header-height));
+    min-height: calc(100vh - var(--header-height));
     height: auto;
     width: 100%;
+    box-sizing: border-box;
   }
 
   /* 1. ФОТОГРАФИЯ СВЕРХУ (Order: 1, опущена чуть ниже) */
@@ -1182,7 +1179,7 @@ img {
     min-height: auto;
     height: auto;
     order: 1; /* ФОТО ПЕРВОЕ */
-    margin-top: calc(var(--header-height) + 24px); /* ОПУЩЕНО НИЖЕ */
+    margin-top: calc(var(--header-height) + 14px);
     margin-bottom: 0;
     padding: 0;
     overflow: visible;
@@ -1224,50 +1221,53 @@ img {
     object-fit: contain;
     object-position: center top;
     display: block;
-    transform: scale(1.08);
+    transform: scale(1.14);
     transform-origin: center top;
     -webkit-mask-image: linear-gradient(to bottom, #000 78%, rgba(0, 0, 0, 0.85) 88%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 78%, rgba(0, 0, 0, 0.85) 88%, transparent 100%);
   }
 
-  /* 2. ЗАГОЛОВОК И КНОПКИ ПОД ФОТО (Order: 2, с наплывом на фото) */
+  /* 2. ЗАГОЛОВОК И КНОПКИ ПОД ФОТО (Order: 2, растягиваются на всю оставшуюся высоту экрана) */
   .hero-left-content {
     position: relative;
     z-index: 10;
     order: 2; /* ТЕКСТ И КНОПКИ ПОД ФОТО */
-    margin-top: -30px; /* ЗАГОЛОВОК ЧУТЬ ЗАХОДИТ НА ФОТО */
-    padding: 0 var(--screen-padding-h) 36px;
+    flex: 1; /* Растягивает блок до низа экрана */
+    margin-top: -26px; /* Заголовок мягко заходит на градиент фото */
+    padding: 0 var(--screen-padding-h) clamp(24px, 4.5vh, 40px);
     max-width: 100%;
     width: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* Заголовок сверху, кнопки прижаты к низу экрана */
     align-items: flex-start; /* ПО ЛЕВОМУ КРАЮ */
     text-align: left;
   }
 
   .hero-typography-block {
-    margin-bottom: 26px;
+    margin-bottom: 20px;
     width: 100%;
     text-align: left;
   }
 
   .hero-title {
-    font-size: clamp(2.85rem, 8.8vw, 3.4rem);
+    font-size: clamp(2.85rem, 9.4vw, 3.4rem);
     line-height: 1.02;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     letter-spacing: -0.02em;
     text-align: left;
   }
 
   .hero-subtitle {
     font-size: 15px;
-    line-height: 1.35;
-    margin-bottom: 24px;
+    line-height: 1.38;
+    margin-bottom: 0;
     color: var(--color-text-sub);
     text-align: left;
   }
 
-  /* 3. КНОПКИ ПО СЕРЕДИНЕ */
+  /* 3. КНОПКИ ПО СЕРЕДИНЕ (Прижаты к нижней части экрана) */
   .hero-cta-group {
     display: flex;
     flex-direction: column;
@@ -1276,19 +1276,20 @@ img {
     width: 100%;
     gap: 14px;
     margin: 0 auto;
+    margin-top: auto;
   }
 
   .hero-primary-btn {
     width: 100%;
     max-width: 360px;
-    height: 54px;
+    height: 56px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 52px;
     margin: 0 auto;
-    font-size: 15.5px;
+    font-size: 16px;
     font-weight: 500;
     box-shadow: 0 4px 14px rgba(8, 8, 8, 0.05);
   }
@@ -1300,7 +1301,7 @@ img {
 
   .hero-primary-btn .btn-arrow-circle {
     position: absolute;
-    right: 7px;
+    right: 8px;
     width: 40px;
     height: 40px;
   }
@@ -1312,57 +1313,11 @@ img {
     text-align: center;
     width: 100%;
     max-width: 360px;
-    font-size: 14.5px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--color-black-deep);
     padding: 6px 0;
     margin: 0 auto;
-  }
-
-  /* 4. ПРЕМИАЛЬНЫЙ БЛОК ДОВЕРИЯ ВНИЗУ (Заполняет нижнюю часть экрана) */
-  .hero-mobile-stats-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 360px;
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--color-border-card);
-    border-radius: 20px;
-    padding: 14px 16px;
-    margin: 26px auto 0;
-    box-shadow: 0 4px 18px rgba(8, 8, 8, 0.04);
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .stat-number {
-    font-family: var(--font-sans);
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--color-black-deep);
-    line-height: 1.2;
-  }
-
-  .stat-caption {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--color-text-sub);
-    margin-top: 2px;
-  }
-
-  .stat-sep {
-    width: 1px;
-    height: 28px;
-    background: var(--color-border-card);
   }
 
   .hero-bottom-info {
@@ -1385,25 +1340,25 @@ img {
   }
 
   .hero-right-visual {
-    margin-top: calc(var(--header-height) + 20px); /* ОПУЩЕНО НИЖЕ */
+    margin-top: calc(var(--header-height) + 12px);
   }
 
   .hero-left-content {
-    margin-top: -28px; /* Заход заголовка на фото на смартфонах */
-    padding: 0 var(--screen-padding-h) 36px;
+    margin-top: -24px; /* Заход заголовка на фото на смартфонах */
+    padding: 0 var(--screen-padding-h) clamp(22px, 4vh, 36px);
   }
 
   .hero-title {
-    font-size: clamp(2.65rem, 9.2vw, 3.15rem); /* УВЕЛИЧЕННЫЙ ЗАГОЛОВОК */
+    font-size: clamp(2.75rem, 9.6vw, 3.3rem); /* УВЕЛИЧЕННЫЙ ЗАГОЛОВОК */
     line-height: 1.02;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     text-align: left;
   }
 
   .hero-subtitle {
-    font-size: 14px;
+    font-size: 14.5px;
     line-height: 1.35;
-    margin-bottom: 22px;
+    margin-bottom: 0;
     text-align: left;
   }
 
@@ -1414,17 +1369,13 @@ img {
 
   .hero-primary-btn {
     max-width: 100%;
-    height: 54px;
-    font-size: 15.5px;
+    height: 56px;
+    font-size: 16px;
   }
 
   .hero-secondary-btn {
     font-size: 14.5px;
     padding: 4px 0;
-  }
-
-  .hero-mobile-stats-bar {
-    margin-top: 24px;
   }
 }
 
