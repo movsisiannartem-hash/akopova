@@ -117,24 +117,24 @@ def render_desktop_exact(output_filename):
 
     # ---------------- HERO LEFT SECTION ----------------
     content_x = 80
-    y_cursor = 250
+    y_cursor = 225
 
-    # Headline in 2 lines: normal, balanced, editorial (~66px)
+    # Headline in 2 lines: enlarged, bold, authoritative editorial (~78px)
     try:
-        f_headline = ImageFont.truetype(SERIF_BODONI, 66, index=0)
+        f_headline = ImageFont.truetype(SERIF_BODONI, 78, index=0)
     except:
-        f_headline = ImageFont.truetype(SERIF_GEORGIA, 64)
+        f_headline = ImageFont.truetype(SERIF_GEORGIA, 76)
 
     draw.text((content_x, y_cursor), "Макияж —", font=f_headline, fill=COLOR_BLACK)
-    y_cursor += 74
+    y_cursor += 86
     draw.text((content_x, y_cursor), "это искусство", font=f_headline, fill=COLOR_BLACK)
     
-    # Subtitle: Manrope Regular (~19px)
-    y_cursor += 98
+    # Subtitle: Manrope Regular (~20px)
+    y_cursor += 106
     try:
-        f_sub = ImageFont.truetype(SANS_REG, 19)
+        f_sub = ImageFont.truetype(SANS_REG, 20)
     except:
-        f_sub = ImageFont.truetype(SANS_REG, 18)
+        f_sub = ImageFont.truetype(SANS_REG, 19)
     draw.text((content_x, y_cursor), "Академия макияжа и красоты Helen Akopova", font=f_sub, fill=COLOR_SUBTITLE)
 
     # ---------------- HERO CTA GROUP: ДВЕ КНОПКИ (Фото 6 и 7) ----------------
@@ -218,29 +218,29 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # Mobile Typography (Shifted down by 18px per user request)
-    y = header_h + 34
+    # Mobile Typography (Enlarged and shifted down further to fill the screen)
+    y = header_h + 44
     try:
-        f_title_m = ImageFont.truetype(SERIF_BODONI, 36, index=0)
+        f_title_m = ImageFont.truetype(SERIF_BODONI, 42, index=0)
     except:
-        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 35)
+        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 40)
         
     draw.text((20, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
-    y += 38
+    y += 44
     draw.text((20, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
     
-    y += 44
+    y += 50
     try:
-        f_sub_m = ImageFont.truetype(SANS_REG, 13)
+        f_sub_m = ImageFont.truetype(SANS_REG, 14)
     except:
         f_sub_m = ImageFont.truetype(SANS_REG, 13)
     draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
-    y += 24
+    y += 28
 
     # Mobile Button Group: Записаться (по центру) + Смотреть работы (по центру)
     btn_w = W - 40
-    btn_h = 50
-    draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=25, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    btn_h = 52
+    draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=26, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
     try:
         f_btn_m = ImageFont.truetype(SANS_MED, 15, index=1)
     except:
@@ -249,29 +249,30 @@ def render_mobile_exact(output_filename):
     txt_cta = "Записаться"
     bbox_cta = draw.textbbox((0, 0), txt_cta, font=f_btn_m)
     tw_cta = bbox_cta[2] - bbox_cta[0]
-    draw.text((20 + (btn_w - tw_cta) // 2, y + 15), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
+    draw.text((20 + (btn_w - tw_cta) // 2, y + 16), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
     
     # Circle arrow on right inside button
-    m_cir_r = 18
+    m_cir_r = 19
     m_cir_cx = 20 + btn_w - 7 - m_cir_r
-    m_cir_cy = y + 25
+    m_cir_cy = y + 26
     draw.ellipse([m_cir_cx - m_cir_r, m_cir_cy - m_cir_r, m_cir_cx + m_cir_r, m_cir_cy + m_cir_r], fill=COLOR_BLACK)
     draw_arrow_ne(draw, m_cir_cx, m_cir_cy, size=4, color=COLOR_WHITE, width=2)
-    y += btn_h + 12
+    y += btn_h + 14
 
     # Secondary action link centered below button
     txt_sec = "Смотреть работы →"
     bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
     tw_sec = bbox_sec[2] - bbox_sec[0]
     draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
-    y += 26
 
-    # Group Photo on Mobile: placed right under buttons without empty gap
+    # Group Photo on Mobile: fills the entire bottom portion of the screen
     grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
-    pw = W
+    pw = int(W * 1.08)
     ph = int(grp_m.height * (pw / grp_m.width))
     grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
-    canvas.alpha_composite(grp_scaled, (0, y))
+    paste_x = (W - pw) // 2
+    paste_y = H - ph
+    canvas.alpha_composite(grp_scaled, (paste_x, paste_y))
 
     # Smooth bottom transition overlay
     fade_overlay = Image.new("RGBA", (W, 40), (0, 0, 0, 0))
@@ -279,7 +280,7 @@ def render_mobile_exact(output_filename):
     for fy in range(40):
         alpha = int(255 * ((fy / 39) ** 1.3))
         d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
-    canvas.alpha_composite(fade_overlay, (0, y + ph - 40))
+    canvas.alpha_composite(fade_overlay, (0, H - 40))
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)
