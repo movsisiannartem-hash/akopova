@@ -218,8 +218,8 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # Mobile Typography
-    y = header_h + 16
+    # Mobile Typography (Shifted down by 18px per user request)
+    y = header_h + 34
     try:
         f_title_m = ImageFont.truetype(SERIF_BODONI, 36, index=0)
     except:
@@ -264,7 +264,7 @@ def render_mobile_exact(output_filename):
     bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
     tw_sec = bbox_sec[2] - bbox_sec[0]
     draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
-    y += 28
+    y += 26
 
     # Group Photo on Mobile: placed right under buttons without empty gap
     grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
@@ -272,6 +272,14 @@ def render_mobile_exact(output_filename):
     ph = int(grp_m.height * (pw / grp_m.width))
     grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
     canvas.alpha_composite(grp_scaled, (0, y))
+
+    # Smooth bottom transition overlay
+    fade_overlay = Image.new("RGBA", (W, 40), (0, 0, 0, 0))
+    d_fade = ImageDraw.Draw(fade_overlay)
+    for fy in range(40):
+        alpha = int(255 * ((fy / 39) ** 1.3))
+        d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
+    canvas.alpha_composite(fade_overlay, (0, y + ph - 40))
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)

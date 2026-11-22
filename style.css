@@ -1166,7 +1166,7 @@ img {
 
   .hero-left-content {
     position: static;
-    padding: calc(var(--header-height) + 16px) var(--screen-padding-h) 0;
+    padding: calc(var(--header-height) + 34px) var(--screen-padding-h) 0;
     max-width: 100%;
     width: 100%;
     order: 1;
@@ -1271,7 +1271,20 @@ img {
     justify-content: center;
   }
 
+  .hero-image-stage::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(243, 235, 231, 0) 0%, rgba(243, 235, 231, 0.75) 60%, rgba(243, 235, 231, 1) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
   .hero-picture {
+    position: relative;
     display: block;
     width: 100%;
     max-width: 480px;
@@ -1286,6 +1299,8 @@ img {
     object-position: center top;
     display: block;
     transform: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, 0.85) 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, 0.85) 90%, transparent 100%);
   }
 
   .hero-bottom-info {
@@ -1308,7 +1323,7 @@ img {
   }
 
   .hero-left-content {
-    padding: calc(var(--header-height) + 12px) var(--screen-padding-h) 0;
+    padding: calc(var(--header-height) + 30px) var(--screen-padding-h) 0;
   }
 
   .hero-title {
