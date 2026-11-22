@@ -1158,33 +1158,100 @@ img {
 
   .hero-section {
     flex-direction: column;
-    justify-content: space-between;
-    min-height: calc(100dvh - var(--header-height));
+    justify-content: flex-start;
+    min-height: auto;
     height: auto;
     width: 100%;
   }
 
+  /* 1. ФОТОГРАФИЯ СВЕРХУ (Order: 1) */
+  .hero-right-visual {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    flex: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: auto;
+    height: auto;
+    order: 1; /* ФОТО ПЕРВОЕ */
+    margin-top: calc(var(--header-height) + 8px);
+    margin-bottom: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .hero-image-stage {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .hero-image-stage::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 52px;
+    background: linear-gradient(to bottom, rgba(243, 235, 231, 0) 0%, rgba(243, 235, 231, 0.75) 55%, rgba(243, 235, 231, 1) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero-picture {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+
+  .hero-group-photo {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: contain;
+    object-position: center top;
+    display: block;
+    transform: scale(1.05);
+    transform-origin: center top;
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, rgba(0, 0, 0, 0.85) 88%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 78%, rgba(0, 0, 0, 0.85) 88%, transparent 100%);
+  }
+
+  /* 2. ЗАГОЛОВОК И КНОПКИ ПОД ФОТО (Order: 2, с наплывом на фото) */
   .hero-left-content {
-    position: static;
-    padding: calc(var(--header-height) + 44px) var(--screen-padding-h) 0;
+    position: relative;
+    z-index: 10;
+    order: 2; /* ТЕКСТ И КНОПКИ ПОД ФОТО */
+    margin-top: -34px; /* ЗАГОЛОВОК ЧУТЬ ЗАХОДИТ НА ФОТО */
+    padding: 0 var(--screen-padding-h) 32px;
     max-width: 100%;
     width: 100%;
-    order: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start; /* ПО ЛЕВОМУ КРАЮ */
+    text-align: left;
   }
 
   .hero-typography-block {
-    margin-bottom: 22px;
+    margin-bottom: 24px;
     width: 100%;
+    text-align: left;
   }
 
   .hero-title {
-    font-size: clamp(2.8rem, 8vw, 3.5rem);
-    line-height: 1.02;
-    margin-bottom: 14px;
+    font-size: clamp(2.55rem, 8.4vw, 3.2rem);
+    line-height: 1.03;
+    margin-bottom: 12px;
     letter-spacing: -0.02em;
+    text-align: left;
   }
 
   .hero-subtitle {
@@ -1192,16 +1259,18 @@ img {
     line-height: 1.35;
     margin-bottom: 22px;
     color: var(--color-text-sub);
+    text-align: left;
   }
 
+  /* 3. КНОПКИ ПО СЕРЕДИНЕ */
   .hero-cta-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* ПО СЕРЕДИНЕ */
     justify-content: center;
     width: 100%;
     gap: 12px;
-    margin-bottom: 18px;
+    margin: 0 auto;
   }
 
   .hero-primary-btn {
@@ -1245,69 +1314,6 @@ img {
     margin: 0 auto;
   }
 
-  .hero-right-visual {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    flex: 1;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    min-height: auto;
-    height: auto;
-    order: 2;
-    margin-top: 14px;
-    margin-bottom: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  .hero-image-stage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  .hero-image-stage::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 48px;
-    background: linear-gradient(to bottom, rgba(243, 235, 231, 0) 0%, rgba(243, 235, 231, 0.75) 60%, rgba(243, 235, 231, 1) 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .hero-picture {
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    width: 100%;
-    max-width: 520px;
-    height: 100%;
-  }
-
-  .hero-group-photo {
-    width: 100%;
-    max-width: 520px;
-    height: auto;
-    max-height: 480px;
-    object-fit: contain;
-    object-position: center bottom;
-    display: block;
-    transform: scale(1.08);
-    transform-origin: center bottom;
-    -webkit-mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, 0.85) 90%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, 0.85) 90%, transparent 100%);
-  }
-
   .hero-bottom-info {
     display: none;
   }
@@ -1327,25 +1333,32 @@ img {
     display: none;
   }
 
+  .hero-right-visual {
+    margin-top: calc(var(--header-height) + 6px);
+  }
+
   .hero-left-content {
-    padding: calc(var(--header-height) + 38px) var(--screen-padding-h) 0;
+    margin-top: -36px; /* Заход заголовка на фото на смартфонах */
+    padding: 0 var(--screen-padding-h) 28px;
   }
 
   .hero-title {
-    font-size: clamp(2.45rem, 8.4vw, 2.95rem);
+    font-size: clamp(2.35rem, 8.2vw, 2.85rem);
     line-height: 1.02;
     margin-bottom: 12px;
+    text-align: left;
   }
 
   .hero-subtitle {
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.35;
     margin-bottom: 20px;
+    text-align: left;
   }
 
   .hero-cta-group {
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .hero-primary-btn {
@@ -1357,23 +1370,6 @@ img {
   .hero-secondary-btn {
     font-size: 14px;
     padding: 4px 0;
-  }
-
-  .hero-right-visual {
-    margin-top: 8px;
-    margin-bottom: 0;
-    padding: 0;
-  }
-
-  .hero-picture {
-    max-width: 100%;
-  }
-
-  .hero-group-photo {
-    max-width: 100%;
-    max-height: 440px;
-    transform: scale(1.1);
-    transform-origin: center bottom;
   }
 }
 

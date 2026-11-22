@@ -218,26 +218,43 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # Mobile Typography (Enlarged and shifted down further to fill the screen)
-    y = header_h + 44
+    # 1. Group Photo First (Under header)
+    photo_y = header_h + 8
+    grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
+    pw = int(W * 1.05)
+    ph = int(grp_m.height * (pw / grp_m.width))
+    grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
+    paste_x = (W - pw) // 2
+    canvas.alpha_composite(grp_scaled, (paste_x, photo_y))
+
+    # Smooth bottom transition overlay on photo
+    fade_overlay = Image.new("RGBA", (W, 44), (0, 0, 0, 0))
+    d_fade = ImageDraw.Draw(fade_overlay)
+    for fy in range(44):
+        alpha = int(255 * ((fy / 43) ** 1.3))
+        d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
+    canvas.alpha_composite(fade_overlay, (0, photo_y + ph - 44))
+
+    # 2. Headline & Subtitle overlapping the photo by ~34px, left-aligned
+    y = photo_y + ph - 34
     try:
-        f_title_m = ImageFont.truetype(SERIF_BODONI, 42, index=0)
+        f_title_m = ImageFont.truetype(SERIF_BODONI, 40, index=0)
     except:
-        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 40)
+        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 38)
         
     draw.text((20, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
-    y += 44
+    y += 42
     draw.text((20, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
     
-    y += 50
+    y += 46
     try:
-        f_sub_m = ImageFont.truetype(SANS_REG, 14)
+        f_sub_m = ImageFont.truetype(SANS_REG, 13.5)
     except:
         f_sub_m = ImageFont.truetype(SANS_REG, 13)
     draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
     y += 28
 
-    # Mobile Button Group: Записаться (по центру) + Смотреть работы (по центру)
+    # 3. Mobile Button Group: Записаться (по центру) + Смотреть работы (по центру)
     btn_w = W - 40
     btn_h = 52
     draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=26, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
@@ -264,23 +281,6 @@ def render_mobile_exact(output_filename):
     bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
     tw_sec = bbox_sec[2] - bbox_sec[0]
     draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
-
-    # Group Photo on Mobile: fills the entire bottom portion of the screen
-    grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
-    pw = int(W * 1.08)
-    ph = int(grp_m.height * (pw / grp_m.width))
-    grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
-    paste_x = (W - pw) // 2
-    paste_y = H - ph
-    canvas.alpha_composite(grp_scaled, (paste_x, paste_y))
-
-    # Smooth bottom transition overlay
-    fade_overlay = Image.new("RGBA", (W, 40), (0, 0, 0, 0))
-    d_fade = ImageDraw.Draw(fade_overlay)
-    for fy in range(40):
-        alpha = int(255 * ((fy / 39) ** 1.3))
-        d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
-    canvas.alpha_composite(fade_overlay, (0, H - 40))
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)
