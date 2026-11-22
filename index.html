@@ -139,16 +139,19 @@
         <div class="hero-right-visual">
           <div class="hero-image-stage">
             
-            <!-- Групповая фотография девушек в оригинальном чистом виде -->
-            <img 
-              src="assets/group-girls-hero.png" 
-              alt="Helen Akopova Makeup Academy — группа визажистов и моделей" 
-              class="hero-group-photo"
-              id="hero-photo"
-              width="1024" 
-              height="576"
-              loading="eager"
-            >
+            <!-- Групповая фотография девушек в оригинальном чистом виде (с адаптивным кропом для смартфонов) -->
+            <picture class="hero-picture">
+              <source media="(max-width: 768px)" srcset="assets/group-girls-mobile.png">
+              <img 
+                src="assets/group-girls-hero.png" 
+                alt="Helen Akopova Makeup Academy — группа визажистов и моделей" 
+                class="hero-group-photo"
+                id="hero-photo"
+                width="1024" 
+                height="576"
+                loading="eager"
+              >
+            </picture>
 
             <!-- Дополнительная надпись в правом нижнем углу поверх тёмной одежды -->
             <aside class="hero-bottom-info" aria-label="О бренде">

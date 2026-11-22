@@ -266,20 +266,12 @@ def render_mobile_exact(output_filename):
     draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
     y += 28
 
-    # Group Photo on Mobile: placed higher, scaled up, seamless studio background
-    photo_avail_h = H - y
-    grp_orig = Image.open("assets/group-girls-hero.png").convert("RGBA")
-    # Crop empty left margin so all 5 models are centered and prominent
-    grp_cropped = grp_orig.crop((140, 0, grp_orig.width, grp_orig.height))
-    scale = photo_avail_h / grp_cropped.height
-    new_w = int(grp_cropped.width * scale)
-    new_h = photo_avail_h
-    grp_scaled = grp_cropped.resize((new_w, new_h), Image.Resampling.LANCZOS)
-    
-    # Align to right bottom
-    paste_x = W - new_w
-    paste_y = y
-    canvas.alpha_composite(grp_scaled, (paste_x, paste_y))
+    # Group Photo on Mobile: placed right under buttons without empty gap
+    grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
+    pw = W
+    ph = int(grp_m.height * (pw / grp_m.width))
+    grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
+    canvas.alpha_composite(grp_scaled, (0, y))
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)

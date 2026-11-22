@@ -639,6 +639,12 @@ img {
   justify-content: flex-end;
 }
 
+.hero-picture {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
 /* Групповая фотография девушек: крупная, высокая, без обрезки */
 .hero-group-photo {
   height: 100%;
@@ -1153,7 +1159,8 @@ img {
   .hero-section {
     flex-direction: column;
     justify-content: flex-start;
-    min-height: calc(100dvh - var(--header-height));
+    min-height: auto;
+    height: auto;
     width: 100%;
   }
 
@@ -1174,7 +1181,7 @@ img {
   }
 
   .hero-title {
-    font-size: clamp(2.2rem, 7.2vw, 2.75rem);
+    font-size: clamp(2.1rem, 7.2vw, 2.6rem);
     line-height: 1.05;
     margin-bottom: 12px;
     letter-spacing: -0.015em;
@@ -1243,35 +1250,42 @@ img {
     right: auto;
     bottom: auto;
     width: 100%;
-    flex: 1;
+    flex: none;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
-    overflow: hidden;
-    min-height: 380px;
+    min-height: auto;
+    height: auto;
     order: 2;
-    margin-top: 6px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    padding: 0 var(--screen-padding-h);
   }
 
   .hero-image-stage {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
+  }
+
+  .hero-picture {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: auto;
   }
 
   .hero-group-photo {
     width: 100%;
-    max-width: 580px;
+    max-width: 480px;
     height: auto;
-    max-height: 500px;
     object-fit: contain;
-    object-position: center bottom;
+    object-position: center top;
     display: block;
-    transform: scale(1.18);
-    transform-origin: center bottom;
+    transform: none;
   }
 
   .hero-bottom-info {
@@ -1326,13 +1340,18 @@ img {
   }
 
   .hero-right-visual {
-    min-height: 340px;
-    margin-top: 0;
+    margin-top: 14px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  .hero-picture {
+    max-width: 100%;
   }
 
   .hero-group-photo {
-    transform: scale(1.22);
-    transform-origin: center bottom;
+    max-width: 100%;
+    transform: none;
   }
 }
 
