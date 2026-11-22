@@ -202,11 +202,11 @@ def render_mobile_exact(output_filename):
 
     # Mobile Header
     header_h = 60
-    draw.line([(0, header_h), (W, header_h)], fill=COLOR_BORDER + (80,), width=1)
+    draw.line([(0, header_h), (W, header_h)], fill=COLOR_BORDER + (75,), width=1)
     
-    # Logo
+    # Logo (compact 118px)
     logo = Image.open("assets/logo-horizontal-transparent.png").convert("RGBA")
-    logo_w = 124
+    logo_w = 118
     logo_h = int(logo.height * (logo_w / logo.width))
     logo_resized = logo.resize((logo_w, logo_h), Image.Resampling.LANCZOS)
     canvas.alpha_composite(logo_resized, (20, (header_h - logo_h) // 2))
@@ -218,73 +218,76 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # 1. Group Photo First (Under header, scaled nicely to fill screen upper half)
-    photo_y = header_h + 14
+    # 1. Group Photo (With added air on top, scaled generously to 1.16x)
+    photo_y = header_h + 26
     grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
-    pw = int(W * 1.14)
+    pw = int(W * 1.16)
     ph = int(grp_m.height * (pw / grp_m.width))
     grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
     paste_x = (W - pw) // 2
     canvas.alpha_composite(grp_scaled, (paste_x, photo_y))
 
-    # Smooth bottom transition overlay on photo
-    fade_overlay = Image.new("RGBA", (W, 48), (0, 0, 0, 0))
+    # Smooth bottom transition overlay on photo (56px smooth fade)
+    fade_overlay = Image.new("RGBA", (W, 56), (0, 0, 0, 0))
     d_fade = ImageDraw.Draw(fade_overlay)
-    for fy in range(48):
-        alpha = int(255 * ((fy / 47) ** 1.3))
+    for fy in range(56):
+        alpha = int(255 * ((fy / 55) ** 1.35))
         d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
-    canvas.alpha_composite(fade_overlay, (0, photo_y + ph - 48))
+    canvas.alpha_composite(fade_overlay, (0, photo_y + ph - 56))
 
-    # 2. Headline & Subtitle overlapping the photo slightly, left-aligned, LARGER!
-    y = photo_y + ph - 24
+    # 2. Headline & Subtitle overlapping the photo slightly by 18px, left-aligned, LARGER (+18%)
+    y = photo_y + ph - 18
     try:
-        f_title_m = ImageFont.truetype(SERIF_BODONI, 45, index=0)
+        f_title_m = ImageFont.truetype(SERIF_BODONI, 46, index=0)
     except:
-        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 43)
+        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 44)
         
     draw.text((20, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
-    y += 48
+    y += 50
     draw.text((20, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
     
-    y += 52
+    y += 54
     try:
+        f_sub_m = ImageFont.truetype(SANS_REG, 15.5)
+    except:
         f_sub_m = ImageFont.truetype(SANS_REG, 15)
-    except:
-        f_sub_m = ImageFont.truetype(SANS_REG, 14.5)
     draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
+    sub_bottom = y + 20
 
-    # 3. Mobile Button Group: Centered and stretched into the bottom thumb-zone (Full screen height coverage)
-    sec_h = 24
-    gap = 16
-    btn_h = 56
-    bottom_pad = 38
-    sec_y = H - bottom_pad - sec_h
-    btn_y = sec_y - gap - btn_h
-
+    # 3. Mobile Button Group: Tight vertical gap from subtitle (28px) and luxury 74px capsule height
+    btn_y = sub_bottom + 28
     btn_w = W - 40
-    draw_rounded_rect(draw, [20, btn_y, 20 + btn_w, btn_y + btn_h], radius=28, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    btn_h = 74 # Height in 72-80px range
+    draw_rounded_rect(draw, [20, btn_y, 20 + btn_w, btn_y + btn_h], radius=37, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    
     try:
-        f_btn_m = ImageFont.truetype(SANS_MED, 16, index=1)
+        f_btn_m = ImageFont.truetype(SANS_MED, 17.5, index=1)
     except:
-        f_btn_m = ImageFont.truetype(SANS_BOLD, 15.5)
+        f_btn_m = ImageFont.truetype(SANS_BOLD, 17)
         
     txt_cta = "Записаться"
     bbox_cta = draw.textbbox((0, 0), txt_cta, font=f_btn_m)
     tw_cta = bbox_cta[2] - bbox_cta[0]
-    draw.text((20 + (btn_w - tw_cta) // 2, btn_y + 17), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
+    draw.text((20 + (btn_w - tw_cta) // 2, btn_y + 26), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
     
-    # Circle arrow on right inside button
-    m_cir_r = 20
-    m_cir_cx = 20 + btn_w - 8 - m_cir_r
-    m_cir_cy = btn_y + (btn_h // 2)
-    draw.ellipse([m_cir_cx - m_cir_r, m_cir_cy - m_cir_r, m_cir_cx + m_cir_r, m_cir_cy + m_cir_r], fill=COLOR_BLACK)
-    draw_arrow_ne(draw, m_cir_cx, m_cir_cy, size=5, color=COLOR_WHITE, width=2)
+    # Circular black badge with white arrow inside primary button
+    cir_r = 25
+    cir_cx = 20 + btn_w - 12 - cir_r
+    cir_cy = btn_y + (btn_h // 2)
+    draw.ellipse([cir_cx - cir_r, cir_cy - cir_r, cir_cx + cir_r, cir_cy + cir_r], fill=COLOR_BLACK)
+    draw_arrow_ne(draw, cir_cx, cir_cy, size=6, color=COLOR_WHITE, width=2)
 
-    # Secondary action link centered below button
+    # 4. Secondary action link centered below button with 28px gap
+    sec_y = btn_y + btn_h + 28
+    try:
+        f_sec_m = ImageFont.truetype(SANS_MED, 15.5, index=1)
+    except:
+        f_sec_m = ImageFont.truetype(SANS_REG, 15.5)
+        
     txt_sec = "Смотреть работы →"
-    bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
+    bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_sec_m)
     tw_sec = bbox_sec[2] - bbox_sec[0]
-    draw.text(((W - tw_sec) // 2, sec_y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
+    draw.text(((W - tw_sec) // 2, sec_y), txt_sec, font=f_sec_m, fill=COLOR_BLACK)
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)
