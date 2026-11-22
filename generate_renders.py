@@ -218,10 +218,10 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # 1. Group Photo First (Under header)
-    photo_y = header_h + 8
+    # 1. Group Photo First (Under header, lowered down)
+    photo_y = header_h + 20
     grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
-    pw = int(W * 1.05)
+    pw = int(W * 1.1)
     ph = int(grp_m.height * (pw / grp_m.width))
     grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
     paste_x = (W - pw) // 2
@@ -235,43 +235,43 @@ def render_mobile_exact(output_filename):
         d_fade.line([(0, fy), (W, fy)], fill=BG_IVORY + (alpha,))
     canvas.alpha_composite(fade_overlay, (0, photo_y + ph - 44))
 
-    # 2. Headline & Subtitle overlapping the photo by ~34px, left-aligned
-    y = photo_y + ph - 34
+    # 2. Headline & Subtitle overlapping the photo slightly by 26px, left-aligned, LARGER!
+    y = photo_y + ph - 26
     try:
-        f_title_m = ImageFont.truetype(SERIF_BODONI, 40, index=0)
+        f_title_m = ImageFont.truetype(SERIF_BODONI, 44, index=0)
     except:
-        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 38)
+        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 42)
         
     draw.text((20, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
-    y += 42
+    y += 46
     draw.text((20, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
     
-    y += 46
+    y += 50
     try:
-        f_sub_m = ImageFont.truetype(SANS_REG, 13.5)
+        f_sub_m = ImageFont.truetype(SANS_REG, 14)
     except:
-        f_sub_m = ImageFont.truetype(SANS_REG, 13)
+        f_sub_m = ImageFont.truetype(SANS_REG, 13.5)
     draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
-    y += 28
+    y += 30
 
     # 3. Mobile Button Group: Записаться (по центру) + Смотреть работы (по центру)
     btn_w = W - 40
-    btn_h = 52
-    draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=26, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    btn_h = 54
+    draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=27, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
     try:
-        f_btn_m = ImageFont.truetype(SANS_MED, 15, index=1)
+        f_btn_m = ImageFont.truetype(SANS_MED, 15.5, index=1)
     except:
         f_btn_m = ImageFont.truetype(SANS_BOLD, 15)
         
     txt_cta = "Записаться"
     bbox_cta = draw.textbbox((0, 0), txt_cta, font=f_btn_m)
     tw_cta = bbox_cta[2] - bbox_cta[0]
-    draw.text((20 + (btn_w - tw_cta) // 2, y + 16), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
+    draw.text((20 + (btn_w - tw_cta) // 2, y + 17), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
     
     # Circle arrow on right inside button
     m_cir_r = 19
     m_cir_cx = 20 + btn_w - 7 - m_cir_r
-    m_cir_cy = y + 26
+    m_cir_cy = y + 27
     draw.ellipse([m_cir_cx - m_cir_r, m_cir_cy - m_cir_r, m_cir_cx + m_cir_r, m_cir_cy + m_cir_r], fill=COLOR_BLACK)
     draw_arrow_ne(draw, m_cir_cx, m_cir_cy, size=4, color=COLOR_WHITE, width=2)
     y += btn_h + 14
@@ -281,6 +281,33 @@ def render_mobile_exact(output_filename):
     bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
     tw_sec = bbox_sec[2] - bbox_sec[0]
     draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
+    y += 28
+
+    # 4. Mobile Stats / Trust Bar (Filling the bottom area)
+    bar_w = W - 40
+    bar_h = 60
+    draw_rounded_rect(draw, [20, y, 20 + bar_w, y + bar_h], radius=18, fill=(255, 255, 255, 200), outline=COLOR_BORDER, width=1)
+    
+    f_stat_num = ImageFont.truetype(SANS_BOLD, 15)
+    f_stat_lbl = ImageFont.truetype(SANS_REG, 11)
+    
+    # Stat 1
+    draw.text((42, y + 12), "10+ лет", font=f_stat_num, fill=COLOR_BLACK)
+    draw.text((42, y + 33), "опыта", font=f_stat_lbl, fill=COLOR_SUBTITLE)
+    
+    # Divider 1
+    draw.line([(136, y + 14), (136, y + 46)], fill=COLOR_BORDER, width=1)
+    
+    # Stat 2
+    draw.text((154, y + 12), "1 500+", font=f_stat_num, fill=COLOR_BLACK)
+    draw.text((154, y + 33), "выпускниц", font=f_stat_lbl, fill=COLOR_SUBTITLE)
+    
+    # Divider 2
+    draw.line([(254, y + 14), (254, y + 46)], fill=COLOR_BORDER, width=1)
+    
+    # Stat 3
+    draw.text((272, y + 12), "PRO", font=f_stat_num, fill=COLOR_BLACK)
+    draw.text((272, y + 33), "база и диплом", font=f_stat_lbl, fill=COLOR_SUBTITLE)
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)
