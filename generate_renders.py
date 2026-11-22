@@ -218,10 +218,10 @@ def render_mobile_exact(output_filename):
     draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
     draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
-    # 1. Group Photo (With added air on top, scaled generously to 1.16x)
-    photo_y = header_h + 26
+    # 1. Group Photo (Scaled larger to 1.24x per user request)
+    photo_y = header_h + 24
     grp_m = Image.open("assets/group-girls-mobile.png").convert("RGBA")
-    pw = int(W * 1.16)
+    pw = int(W * 1.24)
     ph = int(grp_m.height * (pw / grp_m.width))
     grp_scaled = grp_m.resize((pw, ph), Image.Resampling.LANCZOS)
     paste_x = (W - pw) // 2
@@ -254,31 +254,32 @@ def render_mobile_exact(output_filename):
     draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
     sub_bottom = y + 20
 
-    # 3. Mobile Button Group: Tight vertical gap from subtitle (28px) and luxury 74px capsule height
-    btn_y = sub_bottom + 28
-    btn_w = W - 40
-    btn_h = 74 # Height in 72-80px range
-    draw_rounded_rect(draw, [20, btn_y, 20 + btn_w, btn_y + btn_h], radius=37, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    # 3. Mobile Button Group: Refined sleek button (not too tall, not too big: 56px height, 344px width)
+    btn_y = sub_bottom + 26
+    btn_w = 344
+    btn_x = (W - btn_w) // 2
+    btn_h = 56 # Refined luxury capsule height
+    draw_rounded_rect(draw, [btn_x, btn_y, btn_x + btn_w, btn_y + btn_h], radius=28, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
     
     try:
-        f_btn_m = ImageFont.truetype(SANS_MED, 17.5, index=1)
+        f_btn_m = ImageFont.truetype(SANS_MED, 16, index=1)
     except:
-        f_btn_m = ImageFont.truetype(SANS_BOLD, 17)
+        f_btn_m = ImageFont.truetype(SANS_BOLD, 16)
         
     txt_cta = "Записаться"
     bbox_cta = draw.textbbox((0, 0), txt_cta, font=f_btn_m)
     tw_cta = bbox_cta[2] - bbox_cta[0]
-    draw.text((20 + (btn_w - tw_cta) // 2, btn_y + 26), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
+    draw.text((btn_x + (btn_w - tw_cta) // 2, btn_y + 18), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
     
     # Circular black badge with white arrow inside primary button
-    cir_r = 25
-    cir_cx = 20 + btn_w - 12 - cir_r
+    cir_r = 20
+    cir_cx = btn_x + btn_w - 9 - cir_r
     cir_cy = btn_y + (btn_h // 2)
     draw.ellipse([cir_cx - cir_r, cir_cy - cir_r, cir_cx + cir_r, cir_cy + cir_r], fill=COLOR_BLACK)
-    draw_arrow_ne(draw, cir_cx, cir_cy, size=6, color=COLOR_WHITE, width=2)
+    draw_arrow_ne(draw, cir_cx, cir_cy, size=5, color=COLOR_WHITE, width=2)
 
-    # 4. Secondary action link centered below button with 28px gap
-    sec_y = btn_y + btn_h + 28
+    # 4. Secondary action link centered below button with 24px gap
+    sec_y = btn_y + btn_h + 24
     try:
         f_sec_m = ImageFont.truetype(SANS_MED, 15.5, index=1)
     except:

@@ -1167,7 +1167,7 @@ img {
     padding-bottom: clamp(40px, 7vh, 60px);
   }
 
-  /* 1. ФОТОГРАФИЯ СВЕРХУ (Order: 1, добавлен воздух сверху от шапки) */
+  /* 1. ФОТОГРАФИЯ СВЕРХУ (Увеличена, добавлен воздух сверху от шапки) */
   .hero-right-visual {
     position: relative;
     right: auto;
@@ -1180,7 +1180,7 @@ img {
     min-height: auto;
     height: auto;
     order: 1; /* ФОТО ПЕРВОЕ */
-    margin-top: calc(var(--header-height) + 28px); /* ДОБАВЛЕН ВОЗДУХ СВЕРХУ */
+    margin-top: calc(var(--header-height) + 24px); /* ДОБАВЛЕН ВОЗДУХ СВЕРХУ */
     margin-bottom: 0;
     padding: 0;
     overflow: visible;
@@ -1211,18 +1211,18 @@ img {
     position: relative;
     display: block;
     width: 100%;
-    max-width: 530px;
+    max-width: 580px;
     height: auto;
   }
 
   .hero-group-photo {
     width: 100%;
-    max-width: 530px;
+    max-width: 580px;
     height: auto;
     object-fit: contain;
     object-position: center top;
     display: block;
-    transform: scale(1.16);
+    transform: scale(1.24); /* ФОТОГРАФИЯ СТАЛА БОЛЬШЕ */
     transform-origin: center top;
     -webkit-mask-image: linear-gradient(to bottom, #000 74%, rgba(0, 0, 0, 0.85) 86%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 74%, rgba(0, 0, 0, 0.85) 86%, transparent 100%);
@@ -1277,7 +1277,7 @@ img {
     letter-spacing: -0.01em;
   }
 
-  /* 3. КНОПКИ ПО СЕРЕДИНЕ (Широкая капсула 74px + ссылка с отступом 28px) */
+  /* 3. КНОПКИ ПО СЕРЕДИНЕ (Аккуратная элегантная капсула высотой 56px + ссылка) */
   .hero-cta-group {
     display: flex;
     flex-direction: column;
@@ -1290,22 +1290,22 @@ img {
 
   .hero-primary-btn {
     width: 100%;
-    max-width: 440px;
-    height: 74px; /* Высота в диапазоне 72-80 px */
-    border-radius: 50px; /* Скругление 50 px */
+    max-width: 350px; /* Аккуратная, не громоздкая капсула */
+    height: 56px; /* Не слишком высокая и не большая */
+    border-radius: 28px; /* Изящная капсула */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 68px; /* Защита текста от соприкосновения со стрелкой */
-    margin: 0 auto 28px; /* Отступ 28px до ссылки «Смотреть работы →» (диапазон 25-30 px) */
-    font-size: 17.5px;
+    padding: 0 54px; /* Защита текста от соприкосновения со стрелкой */
+    margin: 0 auto 24px; /* 24px до ссылки «Смотреть работы →» */
+    font-size: 16px;
     font-weight: 500;
     font-family: var(--font-sans);
     color: var(--color-black-deep);
     background: #FFFFFF;
     border: 1px solid var(--color-border);
-    box-shadow: 0 4px 18px rgba(8, 8, 8, 0.05);
+    box-shadow: 0 4px 16px rgba(8, 8, 8, 0.05);
     box-sizing: border-box;
   }
 
@@ -1317,11 +1317,11 @@ img {
 
   .hero-primary-btn .btn-arrow-circle {
     position: absolute;
-    right: 12px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--color-black-deep);
     display: flex;
@@ -1332,9 +1332,9 @@ img {
   }
 
   .hero-primary-btn .btn-arrow-circle svg {
-    width: 14px;
-    height: 14px;
-    stroke-width: 2px;
+    width: 12px;
+    height: 12px;
+    stroke-width: 1.8px;
   }
 
   .hero-secondary-btn {
@@ -1343,7 +1343,7 @@ img {
     justify-content: center;
     text-align: center;
     width: auto;
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--color-black-deep);
     opacity: 0.85;
@@ -1376,7 +1376,16 @@ img {
   }
 
   .hero-right-visual {
-    margin-top: calc(var(--header-height) + 24px); /* Добавлен воздух сверху */
+    margin-top: calc(var(--header-height) + 20px); /* Добавлен воздух сверху */
+  }
+
+  .hero-picture,
+  .hero-group-photo {
+    max-width: 100%;
+  }
+
+  .hero-group-photo {
+    transform: scale(1.25); /* ФОТОГРАФИЯ СТАЛА БОЛЬШЕ */
   }
 
   .hero-left-content {
@@ -1404,22 +1413,22 @@ img {
   }
 
   .hero-primary-btn {
-    max-width: 100%;
-    height: 74px; /* Высота 74px */
-    border-radius: 50px; /* Скругление 50 px */
-    font-size: 17px;
-    padding: 0 64px;
-    margin-bottom: 26px; /* 26px до ссылки «Смотреть работы →» */
+    max-width: 340px;
+    height: 56px; /* Не слишком высокая и не большая */
+    border-radius: 28px;
+    font-size: 16px;
+    padding: 0 52px;
+    margin-bottom: 22px;
   }
 
   .hero-primary-btn .btn-arrow-circle {
-    width: 48px;
-    height: 48px;
-    right: 12px;
+    width: 40px;
+    height: 40px;
+    right: 8px;
   }
 
   .hero-secondary-btn {
-    font-size: 15px;
+    font-size: 14.5px;
     padding: 4px 8px;
   }
 }
