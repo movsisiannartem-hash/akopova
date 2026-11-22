@@ -201,84 +201,85 @@ def render_mobile_exact(output_filename):
     draw = ImageDraw.Draw(canvas)
 
     # Mobile Header
-    draw.line([(0, 74), (W, 74)], fill=COLOR_BORDER + (80,), width=1)
+    header_h = 60
+    draw.line([(0, header_h), (W, header_h)], fill=COLOR_BORDER + (80,), width=1)
     
     # Logo
     logo = Image.open("assets/logo-horizontal-transparent.png").convert("RGBA")
-    logo_w = 130
+    logo_w = 124
     logo_h = int(logo.height * (logo_w / logo.width))
     logo_resized = logo.resize((logo_w, logo_h), Image.Resampling.LANCZOS)
-    canvas.alpha_composite(logo_resized, (20, 20))
+    canvas.alpha_composite(logo_resized, (20, (header_h - logo_h) // 2))
     
     # Hamburger
-    ham_x = W - 20 - 42
-    ham_y = 16
-    draw_rounded_rect(draw, [ham_x, ham_y, ham_x + 42, ham_y + 42], radius=21, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
-    draw.line([(ham_x + 13, ham_y + 17), (ham_x + 29, ham_y + 17)], fill=COLOR_BLACK, width=2)
-    draw.line([(ham_x + 13, ham_y + 25), (ham_x + 29, ham_y + 25)], fill=COLOR_BLACK, width=2)
+    ham_x = W - 20 - 40
+    ham_y = (header_h - 40) // 2
+    draw_rounded_rect(draw, [ham_x, ham_y, ham_x + 40, ham_y + 40], radius=20, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    draw.line([(ham_x + 12, ham_y + 15), (ham_x + 28, ham_y + 15)], fill=COLOR_BLACK, width=2)
+    draw.line([(ham_x + 12, ham_y + 23), (ham_x + 28, ham_y + 23)], fill=COLOR_BLACK, width=2)
 
     # Mobile Typography
-    y = 96
+    y = header_h + 16
     try:
-        f_title_m = ImageFont.truetype(SERIF_BODONI, 48, index=0)
+        f_title_m = ImageFont.truetype(SERIF_BODONI, 36, index=0)
     except:
-        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 44)
+        f_title_m = ImageFont.truetype(SERIF_GEORGIA, 35)
         
-    draw.text((22, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
-    y += 50
-    draw.text((22, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
+    draw.text((20, y), "Макияж —", font=f_title_m, fill=COLOR_BLACK)
+    y += 38
+    draw.text((20, y), "это искусство", font=f_title_m, fill=COLOR_BLACK)
     
-    y += 62
+    y += 44
     try:
-        f_sub_m = ImageFont.truetype(SANS_REG, 15)
+        f_sub_m = ImageFont.truetype(SANS_REG, 13)
     except:
-        f_sub_m = ImageFont.truetype(SANS_REG, 14)
-    draw.text((22, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
+        f_sub_m = ImageFont.truetype(SANS_REG, 13)
+    draw.text((20, y), "Академия макияжа и красоты Helen Akopova", font=f_sub_m, fill=COLOR_SUBTITLE)
+    y += 24
 
-    # Group Photo on Mobile (lower section)
-    grp_orig = Image.open("assets/group-girls-hero.png").convert("RGB")
-    m_w, m_h = W - 44, 340
-    scale = max(m_w / grp_orig.width, m_h / grp_orig.height) * 1.05
-    new_w = int(grp_orig.width * scale)
-    new_h = int(grp_orig.height * scale)
-    grp_scaled = grp_orig.resize((new_w, new_h), Image.Resampling.LANCZOS)
-    crop_x = new_w - m_w  # Focus on models
-    grp_cropped = grp_scaled.crop((crop_x, 0, crop_x + m_w, m_h))
-    
-    # Soft rounded corners
-    m_mask = Image.new("L", (m_w, m_h), 255)
-    m_draw = ImageDraw.Draw(m_mask)
-    m_draw.rounded_rectangle([0, 0, m_w, m_h], radius=16, fill=255)
-    grp_cropped.putalpha(m_mask)
-    
-    y_photo = 265
-    canvas.alpha_composite(grp_cropped, (22, y_photo))
-
-    # Badge overlay inside mobile photo
-    draw_rounded_rect(draw, [32, y_photo + m_h - 60, W - 32, y_photo + m_h - 12], radius=10, fill=(8, 8, 8, 160))
-    f_badge_m = ImageFont.truetype(SANS_REG, 11)
-    draw.text((46, y_photo + m_h - 44), "HELEN AKOPOVA • Искусство макияжа и детали", font=f_badge_m, fill=COLOR_WHITE)
-
-    # Mobile Button Group (Пункт 6 ТЗ)
-    y_btn = y_photo + m_h + 24
-    draw_rounded_rect(draw, [22, y_btn, W - 22, y_btn + 56], radius=28, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
+    # Mobile Button Group: Записаться (по центру) + Смотреть работы (по центру)
+    btn_w = W - 40
+    btn_h = 50
+    draw_rounded_rect(draw, [20, y, 20 + btn_w, y + btn_h], radius=25, fill=COLOR_WHITE, outline=COLOR_BORDER, width=1)
     try:
-        f_btn_m = ImageFont.truetype(SANS_MED, 16, index=1)
+        f_btn_m = ImageFont.truetype(SANS_MED, 15, index=1)
     except:
-        f_btn_m = ImageFont.truetype(SANS_BOLD, 16)
+        f_btn_m = ImageFont.truetype(SANS_BOLD, 15)
         
-    draw.text((60, y_btn + 18), "Записаться", font=f_btn_m, fill=COLOR_BLACK)
+    txt_cta = "Записаться"
+    bbox_cta = draw.textbbox((0, 0), txt_cta, font=f_btn_m)
+    tw_cta = bbox_cta[2] - bbox_cta[0]
+    draw.text((20 + (btn_w - tw_cta) // 2, y + 15), txt_cta, font=f_btn_m, fill=COLOR_BLACK)
     
-    # Circle arrow on mobile button
+    # Circle arrow on right inside button
     m_cir_r = 18
-    m_cir_cx = W - 22 - 10 - m_cir_r
-    m_cir_cy = y_btn + 28
+    m_cir_cx = 20 + btn_w - 7 - m_cir_r
+    m_cir_cy = y + 25
     draw.ellipse([m_cir_cx - m_cir_r, m_cir_cy - m_cir_r, m_cir_cx + m_cir_r, m_cir_cy + m_cir_r], fill=COLOR_BLACK)
     draw_arrow_ne(draw, m_cir_cx, m_cir_cy, size=4, color=COLOR_WHITE, width=2)
+    y += btn_h + 12
 
-    # Secondary action link below on mobile
-    y_sec = y_btn + 70
-    draw.text((120, y_sec), "Смотреть работы →", font=f_btn_m, fill=COLOR_BLACK)
+    # Secondary action link centered below button
+    txt_sec = "Смотреть работы →"
+    bbox_sec = draw.textbbox((0, 0), txt_sec, font=f_btn_m)
+    tw_sec = bbox_sec[2] - bbox_sec[0]
+    draw.text(((W - tw_sec) // 2, y), txt_sec, font=f_btn_m, fill=COLOR_BLACK)
+    y += 28
+
+    # Group Photo on Mobile: placed higher, scaled up, seamless studio background
+    photo_avail_h = H - y
+    grp_orig = Image.open("assets/group-girls-hero.png").convert("RGBA")
+    # Crop empty left margin so all 5 models are centered and prominent
+    grp_cropped = grp_orig.crop((140, 0, grp_orig.width, grp_orig.height))
+    scale = photo_avail_h / grp_cropped.height
+    new_w = int(grp_cropped.width * scale)
+    new_h = photo_avail_h
+    grp_scaled = grp_cropped.resize((new_w, new_h), Image.Resampling.LANCZOS)
+    
+    # Align to right bottom
+    paste_x = W - new_w
+    paste_y = y
+    canvas.alpha_composite(grp_scaled, (paste_x, paste_y))
 
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_filename, quality=96)
