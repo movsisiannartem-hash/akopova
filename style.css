@@ -1,0 +1,1289 @@
+/* ==========================================================================
+   HELEN AKOPOVA MAKEUP ACADEMY — EXACT REFERENCE LUXURY DESIGN SYSTEM
+   Header & Hero Section Only
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   DESIGN TOKENS & SYSTEM VARIABLES (Строго по техническому заданию)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Основной фон — точно совпадает с фоном нового студийного фото (#F3EBE7) */
+  --color-warm-ivory: #F3EBE7;
+  --color-white: #FFFFFF;
+
+  /* Основной текст */
+  --color-black-deep: #080808;
+  --color-text-sub: #55514E;
+  --color-text-title-sub: #171717;
+
+  /* Границы и разделители */
+  --color-border-thin: #DDD8D3;
+  --color-border-btn: #E5E0DB;
+  --color-translucent-white: rgba(255, 255, 255, 0.65);
+  
+  /* Шрифты (Строго два семейства) */
+  --font-serif: 'Bodoni Moda', 'Bodoni 72', 'Didot', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Размеры и отступы по референсу */
+  --header-height: 100px;
+  --screen-padding-h: 80px;
+
+  /* Анимации */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 180ms var(--ease-editorial);
+  --transition-normal: 300ms var(--ease-editorial);
+}
+
+/* --------------------------------------------------------------------------
+   RESET & FOUNDATION
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-warm-ivory);
+  color: var(--color-black-deep);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-warm-ivory);
+  color: var(--color-black-deep);
+  line-height: 1.5;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   ВСПЛЫВАЮЩАЯ ПЛАШКА «БЛОК В РАБОТЕ» (Пункт 4 ТЗ)
+   Черный фон шейпа, белый шрифт, маленькая кнопка «Записаться» снизу
+   -------------------------------------------------------------------------- */
+.in-progress-toast {
+  position: fixed;
+  top: 115px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.in-progress-toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-card {
+  position: relative;
+  background-color: #080808;
+  color: #FFFFFF;
+  border-radius: 18px;
+  padding: 22px 30px 24px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  text-align: center;
+  max-width: 380px;
+  width: calc(100vw - 32px);
+}
+
+.toast-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px;
+  transition: color var(--transition-fast);
+}
+
+.toast-close-btn:hover {
+  color: #FFFFFF;
+}
+
+.toast-badge-title {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  margin-bottom: 6px;
+}
+
+.toast-badge-desc {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 18px;
+}
+
+.toast-enroll-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  color: #080808;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 8px 24px;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.toast-enroll-btn:hover {
+  background-color: #ECEBE9;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   VIEWPORT WRAPPER (100% width on desktop, 100vh height)
+   -------------------------------------------------------------------------- */
+.site-viewport-frame {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-warm-ivory);
+}
+
+/* --------------------------------------------------------------------------
+   EDITORIAL ENTRANCE ANIMATIONS (Feature 2)
+   -------------------------------------------------------------------------- */
+@keyframes editorialFadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes editorialFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes editorialScalePhoto {
+  0% {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ШАПКА САЙТА (HEADER)
+   Плавает поверх фона без швов и стыков (Пункт 8 ТЗ)
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--screen-padding-h);
+  z-index: 50;
+  background: transparent;
+  pointer-events: none; /* Клики проходят на контент, кроме дочерних кнопок */
+  animation: editorialFadeDown 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.header-logo-wrap,
+.header-nav-capsule,
+.header-actions {
+  pointer-events: auto;
+}
+
+/* Левая часть: Оригинальный горизонтальный логотип */
+.header-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.header-logo-wrap:hover {
+  opacity: 0.85;
+}
+
+.header-logo-img {
+  width: 170px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Центральная часть: Вытянутая капсула навигации */
+.header-nav-capsule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 590px;
+  height: 56px;
+  background: var(--color-translucent-white);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-border-thin);
+  border-radius: 50px;
+  padding: 4px 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  list-style: none;
+  padding: 0 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--color-black-deep);
+  padding: 9px 18px;
+  border-radius: 40px;
+  letter-spacing: -0.01em;
+  transition: all var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--color-black-deep);
+  opacity: 0.75;
+}
+
+/* Активный пункт «Главная» в белой капсуле как на референсе */
+.nav-link.active {
+  padding: 0;
+}
+
+.nav-active-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  color: var(--color-black-deep);
+  font-weight: 500;
+  padding: 8px 22px;
+  border-radius: 40px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Правая часть: Аккуратная и низкая кнопка «Записаться» в шапке (Пункт 5 ТЗ) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.header-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  height: 42px;
+  padding: 0 22px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-black-deep);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-btn);
+  border-radius: 9999px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: all var(--transition-fast);
+}
+
+.header-cta-btn:hover {
+  background-color: var(--color-black-deep);
+  color: var(--color-white);
+  border-color: var(--color-black-deep);
+  transform: translateY(-1px);
+}
+
+/* Мобильный гамбургер */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 1px solid var(--color-border-thin);
+  gap: 5px;
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mobile-menu-toggle .bar {
+  width: 18px;
+  height: 1.5px;
+  background-color: var(--color-black-deep);
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.mobile-menu-toggle.active .bar-1 {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active .bar-2 {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+/* Мобильная шторка */
+.mobile-drawer {
+  display: none;
+  position: absolute;
+  top: 76px;
+  left: 0;
+  width: 100%;
+  background: rgba(243, 235, 231, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--color-border-thin);
+  padding: 24px 24px 32px;
+  z-index: 49;
+  box-shadow: 0 16px 36px rgba(8, 8, 8, 0.06);
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.mobile-drawer.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-drawer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-nav-link {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-black-deep);
+  padding: 12px 16px;
+  border-radius: 12px;
+  transition: background var(--transition-fast);
+}
+
+.mobile-nav-link:hover, .mobile-nav-link.active {
+  background: rgba(8, 8, 8, 0.05);
+}
+
+.mobile-drawer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border-thin);
+}
+
+.mobile-cta {
+  width: 100%;
+  height: 48px;
+}
+
+/* --------------------------------------------------------------------------
+   ГЛАВНЫЙ ЭКРАН (HERO SECTION)
+   100vh на весь экран, сетка 44% / 56% от самого верха (top: 0)
+   -------------------------------------------------------------------------- */
+.hero-main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.hero-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   ЛЕВАЯ ЧАСТЬ: ТИПОГРАФИКА И ДВЕ КНОПКИ
+   Отступ слева 80 px (выровнен с логотипом), z-index: 10
+   -------------------------------------------------------------------------- */
+.hero-left-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: var(--screen-padding-h);
+  padding-right: 28px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  z-index: 10;
+  position: relative;
+  max-width: 580px;
+  flex-shrink: 0;
+  animation: editorialFadeUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+.hero-typography-block {
+  margin-bottom: 36px;
+}
+
+/* Главный заголовок: Bodoni Moda Regular, строго 2 нормальные сбалансированные строки */
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.8rem, 4.5vw, 4.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--color-black-deep);
+  margin-bottom: 24px;
+}
+
+.hero-title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Подзаголовок: Manrope Regular, 19–21 px */
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 1.35vw, 1.32rem);
+  line-height: 1.45;
+  color: var(--color-text-title-sub);
+  letter-spacing: -0.01em;
+}
+
+/* Группа кнопок: «Записаться» со стрелкой + «Смотреть работы →» (Пункт 6 ТЗ) */
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 6px;
+}
+
+.hero-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 60px;
+  padding: 8px 10px 8px 30px;
+  background-color: var(--color-white);
+  color: var(--color-black-deep);
+  border: 1px solid var(--color-border-thin);
+  border-radius: 50px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all var(--transition-normal);
+}
+
+.btn-arrow-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-black-deep);
+  color: var(--color-white);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.hero-primary-btn:hover {
+  border-color: var(--color-black-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(8, 8, 8, 0.12);
+}
+
+.hero-primary-btn:hover .btn-arrow-circle {
+  transform: translate(2px, -2px);
+}
+
+.hero-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--color-black-deep);
+  background: transparent;
+  padding: 12px 6px;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: opacity var(--transition-fast);
+}
+
+.hero-secondary-btn:hover {
+  opacity: 0.7;
+}
+
+.btn-text-arrow {
+  font-size: 18px;
+  transition: transform var(--transition-fast);
+}
+
+.hero-secondary-btn:hover .btn-text-arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   ПРАВАЯ ЧАСТЬ: ФОТОГРАФИЯ ГРУППЫ ДЕВУШЕК
+   Крупное величественное масштабирование (88vh..92vh), 100% без обрезки
+   -------------------------------------------------------------------------- */
+.hero-right-visual {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 90vh;
+  max-height: 900px;
+  min-height: 520px;
+  width: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-image-stage {
+  position: relative;
+  height: 100%;
+  width: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Групповая фотография девушек: крупная, высокая, без обрезки */
+.hero-group-photo {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: right bottom;
+  display: block;
+  animation: editorialScalePhoto 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   ДОПОЛНИТЕЛЬНАЯ НАДПИСЬ В ПРАВОМ НИЖНЕМ УГЛУ
+   Белый текст поверх тёмной одежды с тонкой горизонтальной линией
+   -------------------------------------------------------------------------- */
+.hero-bottom-info {
+  position: absolute;
+  bottom: 48px;
+  right: 70px;
+  z-index: 10;
+  max-width: 240px;
+  text-align: left;
+  pointer-events: none;
+}
+
+.info-brand-title {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-white);
+  line-height: 1.25;
+}
+
+.info-brand-sub {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+
+.info-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 10px;
+}
+
+.info-tagline {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--color-white);
+  opacity: 0.95;
+}
+
+/* --------------------------------------------------------------------------
+   ЭКСПРЕСС-ЛУКБУК АКАДЕМИИ (Feature 5: Lookbook Dialog)
+   -------------------------------------------------------------------------- */
+.lookbook-dialog {
+  border: none;
+  background: transparent;
+  padding: 0;
+  max-width: 920px;
+  width: calc(100% - 40px);
+  margin: auto;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  border-radius: 28px;
+}
+
+.lookbook-dialog::backdrop {
+  background: rgba(8, 8, 8, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.lookbook-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-thin);
+  border-radius: 28px;
+  padding: 44px;
+  overflow: hidden;
+}
+
+.lookbook-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-warm-ivory);
+  color: var(--color-black-deep);
+  transition: all var(--transition-fast);
+  z-index: 10;
+}
+
+.lookbook-close-btn:hover {
+  background: var(--color-black-deep);
+  color: #FFFFFF;
+}
+
+.lookbook-inner {
+  display: grid;
+  grid-template-columns: 46% 54%;
+  gap: 36px;
+  align-items: center;
+}
+
+.lookbook-kicker {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-text-sub);
+  margin-bottom: 8px;
+}
+
+.lookbook-counter {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--color-black-deep);
+  margin-bottom: 12px;
+  opacity: 0.55;
+}
+
+.lookbook-title {
+  font-family: var(--font-serif);
+  font-size: 2.3rem;
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--color-black-deep);
+  margin-bottom: 16px;
+}
+
+.lookbook-desc {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--color-text-sub);
+  margin-bottom: 24px;
+}
+
+.lookbook-meta-box {
+  background: var(--color-warm-ivory);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.meta-label {
+  color: var(--color-text-sub);
+}
+
+.meta-value {
+  font-weight: 600;
+  color: var(--color-black-deep);
+}
+
+.lookbook-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.lookbook-nav-arrow {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-thin);
+  background: var(--color-warm-ivory);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black-deep);
+  transition: all var(--transition-fast);
+}
+
+.lookbook-nav-arrow:hover {
+  background: var(--color-black-deep);
+  color: #FFFFFF;
+  border-color: var(--color-black-deep);
+}
+
+.lookbook-dots-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lookbook-dot {
+  width: 24px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border-thin);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lookbook-dot.active {
+  background: var(--color-black-deep);
+  width: 36px;
+}
+
+.lookbook-enroll-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 24px;
+  border-radius: 9999px;
+  background: var(--color-black-deep);
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.lookbook-enroll-btn:hover {
+  background: #262626;
+  transform: translateY(-1px);
+}
+
+/* Правая сторона лукбука */
+.lookbook-stage-side {
+  position: relative;
+  height: 440px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.lookbook-visual-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lookbook-slide-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scale(0.97);
+}
+
+.lookbook-slide-item.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.look-art-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px;
+  color: #FFFFFF;
+  position: relative;
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.45);
+}
+
+.art-bg-1 {
+  background: linear-gradient(145deg, #1f1a17 0%, #3d2c23 45%, #8c684d 100%);
+}
+
+.art-bg-2 {
+  background: linear-gradient(145deg, #18191a 0%, #2e2825 50%, #d4a373 100%);
+}
+
+.art-bg-3 {
+  background: linear-gradient(145deg, #1a0f12 0%, #4a1924 55%, #9e2a3b 100%);
+}
+
+.art-bg-4 {
+  background: linear-gradient(145deg, #191c1b 0%, #2f3e3a 50%, #c4b5a5 100%);
+}
+
+.art-tag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 6px;
+}
+
+.art-caption {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+
+/* --------------------------------------------------------------------------
+   МОДАЛЬНОЕ ОКНО ЗАПИСИ (DIALOG)
+   -------------------------------------------------------------------------- */
+.enroll-dialog {
+  border: none;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
+  max-width: 480px;
+  width: calc(100% - 32px);
+  margin: auto;
+  box-shadow: 0 25px 60px rgba(8, 8, 8, 0.22);
+}
+
+.enroll-dialog::backdrop {
+  background: rgba(8, 8, 8, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dialog-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border-thin);
+  border-radius: 24px;
+  padding: 40px;
+  position: relative;
+}
+
+.dialog-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black-deep);
+  background: var(--color-warm-ivory);
+  transition: all var(--transition-fast);
+}
+
+.dialog-close-btn:hover {
+  background: var(--color-black-deep);
+  color: var(--color-white);
+}
+
+.dialog-kicker {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-sub);
+  margin-bottom: 8px;
+}
+
+.dialog-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-black-deep);
+  margin-bottom: 12px;
+}
+
+.dialog-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-sub);
+  margin-bottom: 28px;
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-black-deep);
+}
+
+.form-input, .form-select {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  color: var(--color-black-deep);
+  background: var(--color-warm-ivory);
+  border: 1px solid var(--color-border-thin);
+  border-radius: 12px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: var(--color-black-deep);
+  background: var(--color-white);
+}
+
+.dialog-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-white);
+  background-color: var(--color-black-deep);
+  border-radius: 9999px;
+  padding: 15px 28px;
+  margin-top: 8px;
+  transition: all var(--transition-fast);
+}
+
+.dialog-submit-btn:hover {
+  background-color: #222222;
+  transform: translateY(-1px);
+}
+
+.dialog-privacy-note {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--color-text-sub);
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   АДАПТИВНОСТЬ ПОД МОБИЛЬНЫЕ УСТРОЙСТВА
+   -------------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  :root {
+    --screen-padding-h: 40px;
+    --header-height: 90px;
+  }
+  
+  .header-logo-img {
+    width: 150px;
+  }
+
+  .header-nav-capsule {
+    width: 480px;
+    height: 52px;
+  }
+
+  .nav-link {
+    font-size: 13.5px;
+    padding: 7px 12px;
+  }
+
+  .nav-active-pill {
+    padding: 7px 16px;
+  }
+
+  .hero-title {
+    font-size: clamp(3.2rem, 5.2vw, 5rem);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --header-height: 76px;
+    --screen-padding-h: 24px;
+  }
+
+  .header-nav-capsule {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .mobile-drawer {
+    display: block;
+  }
+
+  .hero-section {
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: auto;
+  }
+
+  .hero-left-content {
+    position: static;
+    padding: 100px var(--screen-padding-h) 36px;
+    max-width: 100%;
+    width: 100%;
+    order: 1;
+  }
+
+  .hero-right-visual {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    height: auto;
+    min-height: 420px;
+    max-height: 560px;
+    width: 100%;
+    order: 2;
+    justify-content: center;
+  }
+
+  .hero-image-stage {
+    width: 100%;
+    height: auto;
+    min-height: 420px;
+    max-height: 560px;
+    justify-content: center;
+  }
+
+  .hero-group-photo {
+    width: 100%;
+    height: auto;
+    max-height: 540px;
+    object-position: center bottom;
+  }
+
+  .hero-bottom-info {
+    bottom: 24px;
+    right: 24px;
+    left: auto;
+    background: rgba(8, 8, 8, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 540px) {
+  :root {
+    --header-height: 72px;
+    --screen-padding-h: 20px;
+  }
+
+  .header-logo-img {
+    width: 130px;
+  }
+
+  .header-cta-btn {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 2.85rem;
+    line-height: 0.98;
+    margin-bottom: 18px;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .hero-primary-btn {
+    width: 100%;
+    height: 56px;
+    font-size: 16px;
+  }
+
+  .hero-right-visual {
+    min-height: 380px;
+    max-height: 420px;
+  }
+
+  .hero-image-stage {
+    min-height: 380px;
+    max-height: 420px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   АДАПТИВНОСТЬ ЛУКБУКА И ХОТСПТОВ ДЛЯ ПЛАНШЕТОВ И СМАРТФОНОВ
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .lookbook-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .lookbook-card {
+    padding: 32px 22px 28px;
+    border-radius: 20px;
+  }
+
+  .lookbook-stage-side {
+    height: 240px;
+    order: -1;
+  }
+
+  .lookbook-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .lookbook-card {
+    padding: 24px 16px 20px;
+  }
+
+  .lookbook-title {
+    font-size: 1.55rem;
+  }
+
+  .lookbook-stage-side {
+    height: 200px;
+  }
+}

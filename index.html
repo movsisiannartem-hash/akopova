@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HELEN AKOPOVA MAKEUP ACADEMY — Главная</title>
+  <meta name="description" content="Helen Akopova Makeup Academy. Премиальная академия макияжа и красоты в Новороссийске. Обучение высокому искусству визажа, авторские техники и постановка руки.">
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Bodoni Moda for headlines, Manrope for clean UI -->
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Всплывающая плашка «Блок в работе» (Черный фон шейпа, белый шрифт, маленькая кнопка «Записаться» снизу) -->
+  <aside class="in-progress-toast" id="in-progress-toast" role="alert" aria-hidden="true">
+    <div class="toast-card">
+      <button class="toast-close-btn" onclick="closeInProgressToast()" aria-label="Закрыть уведомление">×</button>
+      <div class="toast-badge-title">Блок в работе</div>
+      <p class="toast-badge-desc" id="toast-message">Раздел находится в разработке. Вы можете записаться на обучение уже сейчас:</p>
+      <button class="toast-enroll-btn" onclick="closeInProgressToast(); openEnrollmentModal();">
+        <span>Записаться</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Viewport Container (100% width on desktop, 100vh height) -->
+  <div class="site-viewport-frame" id="site-frame">
+
+    <!-- ==========================================================================
+         ШАПКА САЙТА (HEADER) — Плавает поверх фона без швов
+         ========================================================================== -->
+    <header class="site-header" id="site-header">
+      
+      <!-- Левая часть: Оригинальный горизонтальный логотип Helen Akopova Makeup Academy -->
+      <a href="#" class="header-logo-wrap" aria-label="HELEN AKOPOVA MAKEUP ACADEMY">
+        <img 
+          src="assets/logo-horizontal-transparent.png" 
+          alt="HELEN AKOPOVA MAKEUP ACADEMY" 
+          class="header-logo-img"
+          width="170" 
+          height="74"
+          onerror="this.src='assets/logo-horizontal.png'"
+        >
+      </a>
+
+      <!-- Центральная часть: Капсула навигации: Главная, Услуги, Работы, Отзывы, Контакты -->
+      <nav class="header-nav-capsule" aria-label="Основная навигация">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#home" class="nav-link active">
+              <span class="nav-active-pill">Главная</span>
+            </a>
+          </li>
+          <li class="nav-item"><a href="javascript:void(0)" class="nav-link" onclick="showInProgressToast('Услуги')">Услуги</a></li>
+          <li class="nav-item"><a href="javascript:void(0)" class="nav-link" onclick="openLookbookModal()">Работы</a></li>
+          <li class="nav-item"><a href="javascript:void(0)" class="nav-link" onclick="showInProgressToast('Отзывы')">Отзывы</a></li>
+          <li class="nav-item"><a href="javascript:void(0)" class="nav-link" onclick="showInProgressToast('Контакты')">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <!-- Правая часть: Аккуратная и низкая белая кнопка «Записаться» + мобильный гамбургер -->
+      <div class="header-actions">
+        <button class="header-cta-btn" onclick="openEnrollmentModal()">
+          <span>Записаться</span>
+        </button>
+
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Открыть мобильное меню" aria-expanded="false" onclick="toggleMobileMenu()">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Мобильная шторка меню (Mobile Drawer) -->
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+      <div class="mobile-drawer-inner">
+        <nav class="mobile-nav-list">
+          <a href="#home" class="mobile-nav-link active" onclick="toggleMobileMenu()">Главная</a>
+          <a href="javascript:void(0)" class="mobile-nav-link" onclick="toggleMobileMenu(); showInProgressToast('Услуги');">Услуги</a>
+          <a href="javascript:void(0)" class="mobile-nav-link" onclick="toggleMobileMenu(); openLookbookModal();">Работы</a>
+          <a href="javascript:void(0)" class="mobile-nav-link" onclick="toggleMobileMenu(); showInProgressToast('Отзывы');">Отзывы</a>
+          <a href="javascript:void(0)" class="mobile-nav-link" onclick="toggleMobileMenu(); showInProgressToast('Контакты');">Контакты</a>
+        </nav>
+        <div class="mobile-drawer-bottom">
+          <button class="header-cta-btn mobile-cta" onclick="toggleMobileMenu(); openEnrollmentModal();">Записаться</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         ГЛАВНЫЙ ЭКРАН (HERO SECTION)
+         100vh на весь экран, фото девушек без осветлений, две кнопки действий
+         ========================================================================== -->
+    <main class="hero-main-container" id="home">
+      <section class="hero-section" aria-label="Главный экран Helen Akopova Makeup Academy">
+
+        <!-- ЛЕВАЯ ЧАСТЬ: Выразительная типографика и группа кнопок -->
+        <div class="hero-left-content">
+          
+          <div class="hero-typography-block">
+            <!-- Основной заголовок в 2 строки: нормальный, выверенный, без отрыва тире -->
+            <h1 class="hero-title">
+              <span class="hero-title-line">Макияж&nbsp;—</span>
+              <span class="hero-title-line">это&nbsp;искусство</span>
+            </h1>
+
+            <!-- Подзаголовок по ТЗ (Manrope Regular) -->
+            <p class="hero-subtitle">
+              Академия макияжа и красоты Helen Akopova
+            </p>
+          </div>
+
+          <!-- Группа кнопок: «Записаться» со стрелкой + «Смотреть работы →» (как на фото 7) -->
+          <div class="hero-cta-group">
+            <button class="hero-primary-btn" onclick="openEnrollmentModal()">
+              <span>Записаться</span>
+              <span class="btn-arrow-circle" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                  <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+
+            <button class="hero-secondary-btn" onclick="openLookbookModal()">
+              <span>Смотреть работы</span>
+              <span class="btn-text-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ПРАВАЯ ЧАСТЬ: Фотография группы девушек с интерактивными хотспотами -->
+        <div class="hero-right-visual">
+          <div class="hero-image-stage">
+            
+            <!-- Групповая фотография девушек в оригинальном чистом виде -->
+            <img 
+              src="assets/group-girls-hero.png" 
+              alt="Helen Akopova Makeup Academy — группа визажистов и моделей" 
+              class="hero-group-photo"
+              id="hero-photo"
+              width="1024" 
+              height="576"
+              loading="eager"
+            >
+
+            <!-- Дополнительная надпись в правом нижнем углу поверх тёмной одежды -->
+            <aside class="hero-bottom-info" aria-label="О бренде">
+              <span class="info-brand-title">HELEN AKOPOVA</span>
+              <span class="info-brand-sub">MAKEUP ACADEMY</span>
+              <div class="info-divider" aria-hidden="true"></div>
+              <p class="info-tagline">Искусство макияжа<br>и внимание к деталям</p>
+            </aside>
+
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+  </div>
+
+  <!-- ==========================================================================
+       ЭКСПРЕСС-ЛУКБУК АКАДЕМИИ (LOOKBOOK MODAL)
+       Позволяет детально изучить работы академии прямо на первом экране
+       ========================================================================== -->
+  <dialog class="lookbook-dialog" id="lookbook-modal" aria-labelledby="lookbook-title">
+    <div class="lookbook-card">
+      <button class="lookbook-close-btn" onclick="closeLookbookModal()" aria-label="Закрыть лукбук">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="lookbook-inner">
+        <!-- Левая сторона: информация об образе и навигация -->
+        <div class="lookbook-info-side">
+          <span class="lookbook-kicker">HELEN AKOPOVA • PORTFOLIO LOOKBOOK</span>
+          <div class="lookbook-counter" id="lookbook-counter">01 / 04</div>
+          <h2 class="lookbook-title" id="lookbook-title">Editorial Smoky Bronze</h2>
+          <p class="lookbook-desc" id="lookbook-desc">
+            Выпускная дипломная работа студента базового курса. Постановка авторской растушёвки, многослойный градиент и естественное сияние бархатной кожи.
+          </p>
+
+          <div class="lookbook-meta-box">
+            <div class="meta-row">
+              <span class="meta-label">Программа курса:</span>
+              <span class="meta-value" id="lookbook-meta-course">Базовый курс визажиста с нуля</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Преподаватель:</span>
+              <span class="meta-value">Helen Akopova</span>
+            </div>
+          </div>
+
+          <div class="lookbook-controls-row">
+            <button class="lookbook-nav-arrow" onclick="prevLookbookSlide()" aria-label="Предыдущий образ">←</button>
+            <div class="lookbook-dots-group" id="lookbook-dots">
+              <span class="lookbook-dot active" onclick="goToLookbookSlide(0)"></span>
+              <span class="lookbook-dot" onclick="goToLookbookSlide(1)"></span>
+              <span class="lookbook-dot" onclick="goToLookbookSlide(2)"></span>
+              <span class="lookbook-dot" onclick="goToLookbookSlide(3)"></span>
+            </div>
+            <button class="lookbook-nav-arrow" onclick="nextLookbookSlide()" aria-label="Следующий образ">→</button>
+          </div>
+
+          <button class="lookbook-enroll-btn" onclick="enrollFromLookbook()">
+            <span>Хочу научиться так же →</span>
+          </button>
+        </div>
+
+        <!-- Правая сторона: визуальная сцена образа -->
+        <div class="lookbook-stage-side">
+          <div class="lookbook-visual-frame" id="lookbook-visual-frame">
+            <div class="lookbook-slide-item active" id="look-slide-0">
+              <div class="look-art-card art-bg-1">
+                <div class="art-tag">LOOK 01 • SMOKY BRONZE</div>
+                <div class="art-caption">Глубина взгляда и бархатный тон</div>
+              </div>
+            </div>
+            <div class="lookbook-slide-item" id="look-slide-1">
+              <div class="look-art-card art-bg-2">
+                <div class="art-tag">LOOK 02 • GLASS SKIN</div>
+                <div class="art-caption">Эффект обнажённой сияющей кожи</div>
+              </div>
+            </div>
+            <div class="lookbook-slide-item" id="look-slide-2">
+              <div class="look-art-card art-bg-3">
+                <div class="art-tag">LOOK 03 • HOLLYWOOD RED</div>
+                <div class="art-caption">Графичные стрелки и кутюрные губы</div>
+              </div>
+            </div>
+            <div class="lookbook-slide-item" id="look-slide-3">
+              <div class="look-art-card art-bg-4">
+                <div class="art-tag">LOOK 04 • BRIDAL GLAM</div>
+                <div class="art-caption">Коммерческий нежный образ невесты</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       ПРЕМИАЛЬНОЕ МОДАЛЬНОЕ ОКНО ЗАПИСИ (DIALOG MODAL)
+       ========================================================================== -->
+  <dialog class="enroll-dialog" id="enroll-modal" aria-labelledby="modal-title">
+    <div class="dialog-card">
+      <button class="dialog-close-btn" onclick="closeEnrollmentModal()" aria-label="Закрыть модальное окно">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="dialog-header">
+        <span class="dialog-kicker">HELEN AKOPOVA MAKEUP ACADEMY</span>
+        <h2 class="dialog-title" id="modal-title">Запись на обучение</h2>
+        <p class="dialog-desc">Оставьте заявку на обучение или индивидуальную консультацию в Новороссийске. Мы свяжемся с вами в течение 15 минут.</p>
+      </div>
+
+      <form class="dialog-form" onsubmit="handleEnrollSubmit(event)">
+        <div class="form-group">
+          <label for="client-name" class="form-label">Ваше имя</label>
+          <input type="text" id="client-name" class="form-input" placeholder="Например, Анна" required>
+        </div>
+
+        <div class="form-group">
+          <label for="client-phone" class="form-label">Телефон / Telegram</label>
+          <input type="tel" id="client-phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+        </div>
+
+        <div class="form-group">
+          <label for="client-program" class="form-label">Программа обучения</label>
+          <select id="client-program" class="form-select">
+            <option value="basic">Базовый курс визажиста с нуля</option>
+            <option value="pro">Повышение квалификации Pro</option>
+            <option value="self">Макияж для себя</option>
+            <option value="consult">Индивидуальный мастер-класс</option>
+          </select>
+        </div>
+
+        <button type="submit" class="dialog-submit-btn">
+          <span>Отправить заявку</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3.33334 8H12.6667M12.6667 8L8.66668 4M12.6667 8L8.66668 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <p class="dialog-privacy-note">
+          Новороссийск, ул. Самбурова, 170. Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.
+        </p>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
